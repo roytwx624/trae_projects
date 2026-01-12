@@ -15,8 +15,8 @@ app.get('/index.html', (req, res) => {
   res.sendFile(path.join(__dirname, '..', 'index.html'))
 })
 
-app.get('/kejiaohui.html', (req, res) => {
-  res.sendFile(path.join(__dirname, '..', 'kejiaohui.html'))
+app.get('/kebohui.html', (req, res) => {
+  res.sendFile(path.join(__dirname, '..', 'kebohui.html'))
 })
 
 app.get('/booth-ideal.html', (req, res) => {
