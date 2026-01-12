@@ -7,8 +7,25 @@ const __dirname = path.dirname(__filename)
 
 const app = express()
 
-// Serve static files from the root directory
-app.use(express.static('.'))
+// Serve static files with explicit root path
+app.use(express.static(path.join(__dirname, '..')))
+
+// Explicit routes for our HTML files
+app.get('/index.html', (req, res) => {
+  res.sendFile(path.join(__dirname, '..', 'index.html'))
+})
+
+app.get('/kejiaohui.html', (req, res) => {
+  res.sendFile(path.join(__dirname, '..', 'kejiaohui.html'))
+})
+
+app.get('/booth-ideal.html', (req, res) => {
+  res.sendFile(path.join(__dirname, '..', 'booth-ideal.html'))
+})
+
+app.get('/exhibition_platform.html', (req, res) => {
+  res.sendFile(path.join(__dirname, '..', 'exhibition_platform.html'))
+})
 
 // Home route - redirect to index.html
 app.get('/', (req, res) => {
