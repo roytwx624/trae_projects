@@ -38,6 +38,7 @@
             box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
             margin-bottom: 30px;
             text-align: center;
+            position: relative;
         }
 
         .douyin-video {
@@ -46,6 +47,40 @@
             height: 405px;
             border: none;
             border-radius: 8px;
+            display: block;
+        }
+
+        /* 加载状态和错误提示样式 */
+        .video-loading {
+            width: 100%;
+            max-width: 720px;
+            height: 405px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #F3F4F6;
+            border-radius: 8px;
+            color: #6B7280;
+            font-size: 16px;
+        }
+
+        .video-error {
+            width: 100%;
+            max-width: 720px;
+            height: 405px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #FEE2E2;
+            border-radius: 8px;
+            color: #DC2626;
+            font-size: 16px;
+        }
+
+        .video-error-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
         }
 
         .controls {
@@ -77,19 +112,55 @@
             color: #6B7280;
             font-size: 14px;
         }
+
+        .tips {
+            background-color: #EFF6FF;
+            padding: 16px;
+            border-radius: 8px;
+            margin-top: 20px;
+            color: #2563EB;
+            font-size: 14px;
+            line-height: 1.8;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>随机抖音视频</h1>
         <div class="video-container">
-            <iframe id="douyinIframe" class="douyin-video" src="https://open.douyin.com/embed/video/7370614771324671270?autoplay=0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <!-- 视频容器，包含iframe和错误状态 -->
+            <div id="videoWrapper">
+                <div id="loadingState" class="video-loading">
+                    视频加载中...
+                </div>
+                <iframe 
+                    id="douyinIframe" 
+                    class="douyin-video" 
+                    style="display: none;" 
+                    src="https://www.douyin.com/video/7370614771324671270" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen
+                    onload="handleIframeLoad()"
+                    onerror="handleIframeError()"
+                ></iframe>
+                <div id="errorState" class="video-error" style="display: none;">
+                    <div class="video-error-icon">⚠️</div>
+                    <div>视频加载失败</div>
+                    <div style="margin-top: 8px; font-size: 14px; color: #9CA3AF;">请点击下方按钮重新加载</div>
+                </div>
+            </div>
         </div>
         <div class="controls">
             <button class="refresh-btn" onclick="loadRandomVideo()">加载随机视频</button>
         </div>
         <div class="video-info">
             <p>点击"加载随机视频"按钮可切换不同的抖音视频</p>
+        </div>
+        <div class="tips">
+            <strong>使用说明：</strong>
+            <br>1. 由于抖音平台的安全限制，直接嵌入可能会被拒绝
+            <br>2. 建议使用手机扫描下方二维码或复制链接在抖音App中观看
+            <br>3. 或者直接点击视频链接在新窗口打开
         </div>
     </div>
 
@@ -106,17 +177,57 @@
             "7363123456789012345"
         ];
 
+        // DOM元素
+        const videoWrapper = document.getElementById('videoWrapper');
+        const loadingState = document.getElementById('loadingState');
+        const errorState = document.getElementById('errorState');
+        const douyinIframe = document.getElementById('douyinIframe');
+
         function loadRandomVideo() {
             // 随机选择一个视频ID
             const randomIndex = Math.floor(Math.random() * videoIds.length);
             const randomVideoId = videoIds[randomIndex];
             
-            // 获取iframe元素
-            const iframe = document.getElementById('douyinIframe');
+            // 显示加载状态
+            showLoadingState();
+            
+            // 尝试使用不同的抖音域名和嵌入方式
+            const embedUrls = [
+                `https://www.douyin.com/video/${randomVideoId}`,
+                `https://v.douyin.com/${randomVideoId}/`,
+                `https://www.iesdouyin.com/share/video/${randomVideoId}/`
+            ];
+            
+            // 随机选择一个嵌入URL
+            const randomEmbedUrl = embedUrls[Math.floor(Math.random() * embedUrls.length)];
             
             // 更新iframe的src属性，加载新视频
-            iframe.src = `https://open.douyin.com/embed/video/${randomVideoId}?autoplay=0`;
+            douyinIframe.src = randomEmbedUrl;
         }
+
+        // 处理iframe加载成功
+        function handleIframeLoad() {
+            loadingState.style.display = 'none';
+            errorState.style.display = 'none';
+            douyinIframe.style.display = 'block';
+        }
+
+        // 处理iframe加载失败
+        function handleIframeError() {
+            loadingState.style.display = 'none';
+            errorState.style.display = 'flex';
+            douyinIframe.style.display = 'none';
+        }
+
+        // 显示加载状态
+        function showLoadingState() {
+            loadingState.style.display = 'flex';
+            errorState.style.display = 'none';
+            douyinIframe.style.display = 'none';
+        }
+
+        // 初始化加载第一个视频
+        loadRandomVideo();
     </script>
 </body>
 </html>
