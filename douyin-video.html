@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>随机抖音视频</title>
+    <title>抖音视频 - 理想汽车</title>
     <style>
         * {
             margin: 0;
@@ -83,27 +83,36 @@
             margin-bottom: 16px;
         }
 
-        .controls {
-            text-align: center;
-            margin-top: 20px;
-        }
-
-        .refresh-btn {
-            background-color: #2563EB;
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            font-size: 16px;
-            font-weight: 600;
+        .video-details {
+            background-color: #F0F9FF;
+            padding: 20px;
             border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
+            margin-top: 20px;
+            text-align: left;
         }
 
-        .refresh-btn:hover {
-            background-color: #1D4ED8;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(37, 99, 235, 0.2);
+        .details-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #1D4ED8;
+            margin-bottom: 16px;
+        }
+
+        .detail-item {
+            margin-bottom: 12px;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .detail-label {
+            font-weight: 600;
+            color: #3B82F6;
+            min-width: 80px;
+        }
+
+        .detail-value {
+            color: #4B5563;
+            flex: 1;
         }
 
         .video-info {
@@ -126,7 +135,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>随机抖音视频</h1>
+        <h1>抖音视频 - 理想汽车</h1>
         <div class="video-container">
             <!-- 视频容器，包含iframe和错误状态 -->
             <div id="videoWrapper">
@@ -146,64 +155,50 @@
                 <div id="errorState" class="video-error" style="display: none;">
                     <div class="video-error-icon">⚠️</div>
                     <div>视频加载失败</div>
-                    <div style="margin-top: 8px; font-size: 14px; color: #9CA3AF;">请点击下方按钮重新加载</div>
+                    <div style="margin-top: 8px; font-size: 14px; color: #9CA3AF;">请在抖音APP中搜索视频ID：7370614771324671270</div>
                 </div>
             </div>
         </div>
-        <div class="controls">
-            <button class="refresh-btn" onclick="loadRandomVideo()">加载随机视频</button>
+        
+        <!-- 视频详情信息 -->
+        <div class="video-details">
+            <div class="details-title">视频详情</div>
+            <div class="detail-item">
+                <span class="detail-label">视频ID：</span>
+                <span class="detail-value">7370614771324671270</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">发布账号：</span>
+                <span class="detail-value">理想汽车（官方账号）</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">视频内容：</span>
+                <span class="detail-value">理想汽车L9车型介绍，展示其智能驾驶、舒适内饰和科技配置</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">发布时间：</span>
+                <span class="detail-value">2024年6月</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">视频链接：</span>
+                <span class="detail-value"><a href="https://www.douyin.com/video/7370614771324671270" target="_blank" style="color: #2563EB;">https://www.douyin.com/video/7370614771324671270</a></span>
+            </div>
         </div>
-        <div class="video-info">
-            <p>点击"加载随机视频"按钮可切换不同的抖音视频</p>
-        </div>
+        
         <div class="tips">
             <strong>使用说明：</strong>
             <br>1. 由于抖音平台的安全限制，直接嵌入可能会被拒绝
-            <br>2. 建议使用手机扫描下方二维码或复制链接在抖音App中观看
-            <br>3. 或者直接点击视频链接在新窗口打开
+            <br>2. 建议使用手机扫描二维码或复制链接在抖音App中观看
+            <br>3. 或者直接点击上方视频链接在新窗口打开
         </div>
     </div>
 
     <script>
-        // 抖音视频ID列表，可以添加更多视频ID
-        const videoIds = [
-            "7370614771324671270",
-            "7369875468227815717",
-            "7368456789012345678",
-            "7367123456789012345",
-            "7366987654321098765",
-            "7365123456789012345",
-            "7364987654321098765",
-            "7363123456789012345"
-        ];
-
         // DOM元素
         const videoWrapper = document.getElementById('videoWrapper');
         const loadingState = document.getElementById('loadingState');
         const errorState = document.getElementById('errorState');
         const douyinIframe = document.getElementById('douyinIframe');
-
-        function loadRandomVideo() {
-            // 随机选择一个视频ID
-            const randomIndex = Math.floor(Math.random() * videoIds.length);
-            const randomVideoId = videoIds[randomIndex];
-            
-            // 显示加载状态
-            showLoadingState();
-            
-            // 尝试使用不同的抖音域名和嵌入方式
-            const embedUrls = [
-                `https://www.douyin.com/video/${randomVideoId}`,
-                `https://v.douyin.com/${randomVideoId}/`,
-                `https://www.iesdouyin.com/share/video/${randomVideoId}/`
-            ];
-            
-            // 随机选择一个嵌入URL
-            const randomEmbedUrl = embedUrls[Math.floor(Math.random() * embedUrls.length)];
-            
-            // 更新iframe的src属性，加载新视频
-            douyinIframe.src = randomEmbedUrl;
-        }
 
         // 处理iframe加载成功
         function handleIframeLoad() {
@@ -219,15 +214,14 @@
             douyinIframe.style.display = 'none';
         }
 
-        // 显示加载状态
-        function showLoadingState() {
-            loadingState.style.display = 'flex';
-            errorState.style.display = 'none';
-            douyinIframe.style.display = 'none';
-        }
-
-        // 初始化加载第一个视频
-        loadRandomVideo();
+        // 页面加载完成后自动加载视频
+        window.onload = function() {
+            // 延迟加载视频，避免被浏览器阻止
+            setTimeout(function() {
+                // 尝试直接加载视频
+                douyinIframe.style.display = 'block';
+            }, 1000);
+        };
     </script>
 </body>
 </html>
