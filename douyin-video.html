@@ -3,323 +3,63 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>抖音视频 - 人民日报</title>
+    <title>抖音视频iframe嵌入演示</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Microsoft YaHei', 'PingFang SC', sans-serif;
-            background-color: #F5F5F5;
-            color: #333;
-            line-height: 1.6;
-        }
-
         .container {
-            max-width: 1200px;
+            max-width: 800px;
             margin: 0 auto;
-            padding: 40px 20px;
+            padding: 20px;
         }
-
-        h1 {
-            text-align: center;
-            font-size: 36px;
-            margin-bottom: 40px;
-            color: #2563EB;
-        }
-
         .video-container {
-            background: white;
-            border-radius: 12px;
-            padding: 30px;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
-            margin-bottom: 30px;
-            text-align: center;
-            position: relative;
-        }
-
-        /* 视频封面和访问方式 */
-        .video-cover {
-            width: 100%;
-            max-width: 720px;
-            height: 405px;
-            background: linear-gradient(135deg, #F0F9FF 0%, #EFF6FF 100%);
+            border: 1px solid #e5e7eb;
             border-radius: 8px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 20px;
-            position: relative;
-            border: 2px solid #DBEAFE;
-        }
-
-        .video-cover-icon {
-            font-size: 80px;
-            margin-bottom: 20px;
-            color: #2563EB;
-        }
-
-        .video-cover-title {
-            font-size: 24px;
-            font-weight: 600;
-            color: #1D4ED8;
-            margin-bottom: 10px;
-        }
-
-        .video-cover-subtitle {
-            color: #6B7280;
-            font-size: 16px;
-            margin-bottom: 30px;
-        }
-
-        /* 访问按钮样式 */
-        .access-buttons {
-            display: flex;
-            gap: 16px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .access-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 12px 24px;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-        }
-
-        .access-btn-primary {
-            background-color: #2563EB;
-            color: white;
-        }
-
-        .access-btn-primary:hover {
-            background-color: #1D4ED8;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(37, 99, 235, 0.2);
-        }
-
-        .access-btn-secondary {
-            background-color: white;
-            color: #2563EB;
-            border: 2px solid #2563EB;
-        }
-
-        .access-btn-secondary:hover {
-            background-color: #EFF6FF;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(37, 99, 235, 0.1);
-        }
-
-        /* 二维码样式 */
-        .qr-code-section {
-            background-color: white;
             padding: 20px;
-            border-radius: 8px;
-            margin-top: 20px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-        }
-
-        .qr-code-title {
-            font-size: 18px;
-            font-weight: 600;
-            color: #1F2937;
-            margin-bottom: 16px;
-            text-align: center;
-        }
-
-        .qr-code-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-
-        .qr-code {
-            width: 150px;
-            height: 150px;
-            background-color: white;
-            border: 2px solid #E5E7EB;
-            border-radius: 8px;
+            min-height: 400px;
             display: flex;
             align-items: center;
             justify-content: center;
+            background-color: #f9fafb;
         }
-
-        .qr-code img {
-            width: 130px;
-            height: 130px;
-        }
-
-        .qr-code-desc {
-            text-align: left;
-            max-width: 300px;
-        }
-
-        .qr-code-desc-title {
-            font-weight: 600;
-            color: #1F2937;
-            margin-bottom: 8px;
-        }
-
-        .qr-code-desc-text {
-            color: #6B7280;
-            font-size: 14px;
-            line-height: 1.6;
-        }
-
-        .video-details {
-            background-color: #F0F9FF;
-            padding: 20px;
-            border-radius: 8px;
-            margin-top: 20px;
-            text-align: left;
-        }
-
-        .details-title {
-            font-size: 20px;
-            font-weight: 600;
-            color: #1D4ED8;
-            margin-bottom: 16px;
-        }
-
-        .detail-item {
-            margin-bottom: 12px;
-            display: flex;
-            align-items: flex-start;
-        }
-
-        .detail-label {
-            font-weight: 600;
-            color: #3B82F6;
-            min-width: 80px;
-        }
-
-        .detail-value {
-            color: #4B5563;
-            flex: 1;
-        }
-
-        .detail-value a {
-            color: #2563EB;
-            text-decoration: none;
-        }
-
-        .detail-value a:hover {
-            text-decoration: underline;
-        }
-
-        .tips {
-            background-color: #EFF6FF;
-            padding: 16px;
-            border-radius: 8px;
-            margin-top: 20px;
-            color: #2563EB;
-            font-size: 14px;
-            line-height: 1.8;
+        .loading {
+            display: none;
+            color: #6b7280;
         }
     </style>
 </head>
-<body>
+<body class="bg-gray-50">
     <div class="container">
-        <h1>抖音视频 - 人民日报</h1>
-        <div class="video-container">
-            <!-- 尝试iframe嵌入抖音视频 -->
-            <iframe 
-                src="https://www.douyin.com/video/7595138900985744681" 
-                width="100%" 
-                height="500px" 
-                frameborder="0" 
-                allowfullscreen="true"
-                style="border-radius: 8px;"
-            ></iframe>
-            
-            <!-- 备用访问按钮 -->
-            <div style="margin-top: 20px;">
-                <div class="access-buttons">
-                    <a href="https://www.douyin.com/video/7595138900985744681" target="_blank" class="access-btn access-btn-primary">
-                        <span>🌐</span>
-                        <span>在浏览器中打开</span>
-                    </a>
-                    <a href="https://v.douyin.com/7595138900985744681/" target="_blank" class="access-btn access-btn-secondary">
-                        <span>📱</span>
-                        <span>在抖音App中打开</span>
-                    </a>
-                </div>
-            </div>
-        </div>
+        <h1 class="text-2xl font-bold text-gray-800 mb-6">抖音视频iframe嵌入演示</h1>
         
-        <!-- 视频详情信息 -->
-        <div class="video-details">
-            <div class="details-title">视频详情</div>
-            <div class="detail-item">
-                <span class="detail-label">视频ID：</span>
-                <span class="detail-value">7595138900985744681</span>
+        <div class="bg-white rounded-lg shadow-sm p-6">
+            <h2 class="text-lg font-semibold text-gray-800 mb-4">视频预览</h2>
+            <div id="videoContainer" class="video-container">
+                <!-- 使用抖音开放平台iframe播放器格式 -->
+                <iframe 
+                    width="100%" 
+                    height="500" 
+                    frameborder="0" 
+                    src="https://open.douyin.com/player/video?vid=7595138900985744681&autoplay=0" 
+                    allowfullscreen>
+                </iframe>
             </div>
-            <div class="detail-item">
-                <span class="detail-label">发布账号：</span>
-                <span class="detail-value">人民日报（官方账号）</span>
-            </div>
-            <div class="detail-item">
-                <span class="detail-label">视频内容：</span>
-                <span class="detail-value">人民日报相关视频，从搜索结果中提取</span>
-            </div>
-            <div class="detail-item">
-                <span class="detail-label">发布时间：</span>
-                <span class="detail-value">2025年6月</span>
-            </div>
-            <div class="detail-item">
-                <span class="detail-label">视频链接：</span>
-                <span class="detail-value"><a href="https://www.douyin.com/video/7595138900985744681" target="_blank">https://www.douyin.com/video/7595138900985744681</a></span>
-            </div>
-            <div class="detail-item">
-                <span class="detail-label">搜索链接：</span>
-                <span class="detail-value"><a href="https://www.douyin.com/root/search/%E4%BA%BA%E6%B0%91%E6%97%A5%E6%8A%A5?aid=a859a57f-04b0-4d3a-be6a-bb6a26420b2b&modal_id=7595138900985744681&type=general" target="_blank">https://www.douyin.com/root/search/人民日报</a></span>
-            </div>
-        </div>
-        
-        <!-- 二维码区域 -->
-        <div class="qr-code-section">
-            <div class="qr-code-title">扫码观看</div>
-            <div class="qr-code-container">
-                <div class="qr-code">
-                    <!-- 这里可以替换为实际的二维码图片 -->
-                    <div style="font-size: 12px; color: #9CA3AF; text-align: center;">
-                        抖音视频二维码<br>(请使用抖音App扫码)
-                    </div>
-                </div>
-                <div class="qr-code-desc">
-                    <div class="qr-code-desc-title">如何扫码观看</div>
-                    <div class="qr-code-desc-text">
-                        1. 打开抖音App<br>
-                        2. 点击右上角的搜索图标<br>
-                        3. 点击搜索框左侧的扫码图标<br>
-                        4. 扫描左侧二维码即可观看视频
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="tips">
-            <strong>使用说明：</strong>
-            <br>1. 由于抖音平台的安全限制，无法直接在页面中嵌入视频
-            <br>2. 您可以通过以下方式观看：
-            <br>   - 点击"在浏览器中打开"按钮，在新窗口中观看
-            <br>   - 点击"在抖音App中打开"按钮，跳转到抖音App观看
-            <br>   - 使用抖音App扫描左侧二维码观看
-            <br>   - 复制视频ID在抖音App中搜索观看
         </div>
     </div>
+
+    <script>
+        // 简单的响应式调整
+        window.addEventListener('resize', () => {
+            const iframe = document.querySelector('iframe');
+            if (iframe) {
+                const containerWidth = iframe.parentElement.clientWidth;
+                // 保持16:9的宽高比
+                iframe.style.height = `${containerWidth * 9 / 16}px`;
+            }
+        });
+        
+        // 初始调整
+        window.dispatchEvent(new Event('resize'));
+    </script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
 </body>
 </html>
