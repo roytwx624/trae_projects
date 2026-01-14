@@ -34,53 +34,149 @@
         .video-container {
             background: white;
             border-radius: 12px;
-            padding: 20px;
+            padding: 30px;
             box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
             margin-bottom: 30px;
             text-align: center;
             position: relative;
         }
 
-        .douyin-video {
+        /* 视频封面和访问方式 */
+        .video-cover {
             width: 100%;
             max-width: 720px;
             height: 405px;
-            border: none;
+            background: linear-gradient(135deg, #F0F9FF 0%, #EFF6FF 100%);
             border-radius: 8px;
-            display: block;
-        }
-
-        /* 加载状态和错误提示样式 */
-        .video-loading {
-            width: 100%;
-            max-width: 720px;
-            height: 405px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: #F3F4F6;
-            border-radius: 8px;
-            color: #6B7280;
-            font-size: 16px;
-        }
-
-        .video-error {
-            width: 100%;
-            max-width: 720px;
-            height: 405px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            background-color: #FEE2E2;
-            border-radius: 8px;
-            color: #DC2626;
-            font-size: 16px;
+            margin: 0 auto 20px;
+            position: relative;
+            border: 2px solid #DBEAFE;
         }
 
-        .video-error-icon {
-            font-size: 48px;
+        .video-cover-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+            color: #2563EB;
+        }
+
+        .video-cover-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #1D4ED8;
+            margin-bottom: 10px;
+        }
+
+        .video-cover-subtitle {
+            color: #6B7280;
+            font-size: 16px;
+            margin-bottom: 30px;
+        }
+
+        /* 访问按钮样式 */
+        .access-buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .access-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .access-btn-primary {
+            background-color: #2563EB;
+            color: white;
+        }
+
+        .access-btn-primary:hover {
+            background-color: #1D4ED8;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(37, 99, 235, 0.2);
+        }
+
+        .access-btn-secondary {
+            background-color: white;
+            color: #2563EB;
+            border: 2px solid #2563EB;
+        }
+
+        .access-btn-secondary:hover {
+            background-color: #EFF6FF;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(37, 99, 235, 0.1);
+        }
+
+        /* 二维码样式 */
+        .qr-code-section {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        }
+
+        .qr-code-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1F2937;
             margin-bottom: 16px;
+            text-align: center;
+        }
+
+        .qr-code-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .qr-code {
+            width: 150px;
+            height: 150px;
+            background-color: white;
+            border: 2px solid #E5E7EB;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .qr-code img {
+            width: 130px;
+            height: 130px;
+        }
+
+        .qr-code-desc {
+            text-align: left;
+            max-width: 300px;
+        }
+
+        .qr-code-desc-title {
+            font-weight: 600;
+            color: #1F2937;
+            margin-bottom: 8px;
+        }
+
+        .qr-code-desc-text {
+            color: #6B7280;
+            font-size: 14px;
+            line-height: 1.6;
         }
 
         .video-details {
@@ -115,11 +211,13 @@
             flex: 1;
         }
 
-        .video-info {
-            text-align: center;
-            margin-top: 20px;
-            color: #6B7280;
-            font-size: 14px;
+        .detail-value a {
+            color: #2563EB;
+            text-decoration: none;
+        }
+
+        .detail-value a:hover {
+            text-decoration: underline;
         }
 
         .tips {
@@ -137,25 +235,21 @@
     <div class="container">
         <h1>抖音视频 - 人民日报</h1>
         <div class="video-container">
-            <!-- 视频容器，包含iframe和错误状态 -->
-            <div id="videoWrapper">
-                <div id="loadingState" class="video-loading">
-                    视频加载中...
-                </div>
-                <iframe 
-                    id="douyinIframe" 
-                    class="douyin-video" 
-                    style="display: none;" 
-                    src="https://www.douyin.com/video/7595138900985744681" 
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                    allowfullscreen
-                    onload="handleIframeLoad()"
-                    onerror="handleIframeError()"
-                ></iframe>
-                <div id="errorState" class="video-error" style="display: none;">
-                    <div class="video-error-icon">⚠️</div>
-                    <div>视频加载失败</div>
-                    <div style="margin-top: 8px; font-size: 14px; color: #9CA3AF;">请在抖音APP中搜索视频ID：7595138900985744681</div>
+            <div class="video-cover">
+                <div class="video-cover-icon">🎵</div>
+                <div class="video-cover-title">人民日报抖音视频</div>
+                <div class="video-cover-subtitle">由于抖音平台的安全限制，无法直接嵌入视频</div>
+                
+                <!-- 访问按钮 -->
+                <div class="access-buttons">
+                    <a href="https://www.douyin.com/video/7595138900985744681" target="_blank" class="access-btn access-btn-primary">
+                        <span>🌐</span>
+                        <span>在浏览器中打开</span>
+                    </a>
+                    <a href="https://v.douyin.com/7595138900985744681/" target="_blank" class="access-btn access-btn-secondary">
+                        <span>📱</span>
+                        <span>在抖音App中打开</span>
+                    </a>
                 </div>
             </div>
         </div>
@@ -181,51 +275,45 @@
             </div>
             <div class="detail-item">
                 <span class="detail-label">视频链接：</span>
-                <span class="detail-value"><a href="https://www.douyin.com/video/7595138900985744681" target="_blank" style="color: #2563EB;">https://www.douyin.com/video/7595138900985744681</a></span>
+                <span class="detail-value"><a href="https://www.douyin.com/video/7595138900985744681" target="_blank">https://www.douyin.com/video/7595138900985744681</a></span>
             </div>
             <div class="detail-item">
                 <span class="detail-label">搜索链接：</span>
-                <span class="detail-value"><a href="https://www.douyin.com/root/search/%E4%BA%BA%E6%B0%91%E6%97%A5%E6%8A%A5?aid=a859a57f-04b0-4d3a-be6a-bb6a26420b2b&modal_id=7595138900985744681&type=general" target="_blank" style="color: #2563EB;">https://www.douyin.com/root/search/%E4%BA%BA%E6%B0%91%E6%97%A5%E6%8A%A5?aid=a859a57f-04b0-4d3a-be6a-bb6a26420b2b&modal_id=7595138900985744681&type=general</a></span>
+                <span class="detail-value"><a href="https://www.douyin.com/root/search/%E4%BA%BA%E6%B0%91%E6%97%A5%E6%8A%A5?aid=a859a57f-04b0-4d3a-be6a-bb6a26420b2b&modal_id=7595138900985744681&type=general" target="_blank">https://www.douyin.com/root/search/人民日报</a></span>
+            </div>
+        </div>
+        
+        <!-- 二维码区域 -->
+        <div class="qr-code-section">
+            <div class="qr-code-title">扫码观看</div>
+            <div class="qr-code-container">
+                <div class="qr-code">
+                    <!-- 这里可以替换为实际的二维码图片 -->
+                    <div style="font-size: 12px; color: #9CA3AF; text-align: center;">
+                        抖音视频二维码<br>(请使用抖音App扫码)
+                    </div>
+                </div>
+                <div class="qr-code-desc">
+                    <div class="qr-code-desc-title">如何扫码观看</div>
+                    <div class="qr-code-desc-text">
+                        1. 打开抖音App<br>
+                        2. 点击右上角的搜索图标<br>
+                        3. 点击搜索框左侧的扫码图标<br>
+                        4. 扫描左侧二维码即可观看视频
+                    </div>
+                </div>
             </div>
         </div>
         
         <div class="tips">
             <strong>使用说明：</strong>
-            <br>1. 由于抖音平台的安全限制，直接嵌入可能会被拒绝
-            <br>2. 建议使用手机扫描二维码或复制链接在抖音App中观看
-            <br>3. 或者直接点击上方视频链接在新窗口打开
+            <br>1. 由于抖音平台的安全限制，无法直接在页面中嵌入视频
+            <br>2. 您可以通过以下方式观看：
+            <br>   - 点击"在浏览器中打开"按钮，在新窗口中观看
+            <br>   - 点击"在抖音App中打开"按钮，跳转到抖音App观看
+            <br>   - 使用抖音App扫描左侧二维码观看
+            <br>   - 复制视频ID在抖音App中搜索观看
         </div>
     </div>
-
-    <script>
-        // DOM元素
-        const videoWrapper = document.getElementById('videoWrapper');
-        const loadingState = document.getElementById('loadingState');
-        const errorState = document.getElementById('errorState');
-        const douyinIframe = document.getElementById('douyinIframe');
-
-        // 处理iframe加载成功
-        function handleIframeLoad() {
-            loadingState.style.display = 'none';
-            errorState.style.display = 'none';
-            douyinIframe.style.display = 'block';
-        }
-
-        // 处理iframe加载失败
-        function handleIframeError() {
-            loadingState.style.display = 'none';
-            errorState.style.display = 'flex';
-            douyinIframe.style.display = 'none';
-        }
-
-        // 页面加载完成后自动加载视频
-        window.onload = function() {
-            // 延迟加载视频，避免被浏览器阻止
-            setTimeout(function() {
-                // 尝试直接加载视频
-                douyinIframe.style.display = 'block';
-            }, 1000);
-        };
-    </script>
 </body>
 </html>
