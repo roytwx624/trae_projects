@@ -27,6 +27,10 @@ app.get('/exhibition_platform.html', (req, res) => {
   res.sendFile(path.join(__dirname, '..', 'exhibition_platform.html'))
 })
 
+app.get('/douyin-video.html', (req, res) => {
+  res.sendFile(path.join(__dirname, '..', 'douyin-video.html'))
+})
+
 // Home route - redirect to index.html
 app.get('/', (req, res) => {
   res.redirect('/index.html')
