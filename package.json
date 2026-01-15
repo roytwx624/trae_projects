@@ -2,18 +2,18 @@
   "name": "exhibition-platform",
   "version": "1.0.0",
   "description": "大都会展数智平台",
-  "keywords": ["exhibition", "platform", "registration"],
+  "keywords": ["exhibition", "platform", "registration", "next.js"],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@types/express": "^5.0.0",
-    "express": "^4.18.2"
-  },
-  "devDependencies": {
-    "@types/node": "^22.0.0"
+    "next": "^14.2.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   },
   "scripts": {
-    "build": "tsc",
-    "start": "node index.js"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "export": "next export"
   }
 }
