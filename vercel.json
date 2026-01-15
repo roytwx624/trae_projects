@@ -1,12 +1,14 @@
 {
   "version": 2,
+  "buildCommand": "npm run build",
   "builds": [
     {
-      "src": "src/index.ts",
-      "use": "@vercel/node"
+      "src": "dist/src/index.js",
+      "use": "@vercel/node",
+      "config": { "includeFiles": ["dist/**/*"] }
     },
     {
-      "src": "(?!api).*\.(html|css|js|png|jpg|gif|svg|ico)$",
+      "src": "*.html",
       "use": "@vercel/static"
     }
   ],
