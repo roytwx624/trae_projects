@@ -1,9 +1,9 @@
 {
-  "name": "express",
+  "name": "exhibition-platform",
   "version": "1.0.0",
-  "description": "",
+  "description": "大都会展数智平台",
   "type": "module",
-  "keywords": [],
+  "keywords": ["exhibition", "platform", "registration"],
   "author": "",
   "license": "ISC",
   "dependencies": {
@@ -12,5 +12,9 @@
   },
   "devDependencies": {
     "@types/node": "^22.0.0"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
   }
 }
