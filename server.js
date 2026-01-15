@@ -1,10 +1,2 @@
-import app from './src/index.js'
-
-const PORT = process.env.PORT || 3000
-
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`)
-  console.log(`API endpoints:`)
-  console.log(`  POST /api/register - User registration`)
-  console.log(`  GET /api/registrations - Get all registrations`)
-})
+// This file is no longer needed. We'll use src/index.ts directly as the entry point
+// The server will be started by Vercel automatically

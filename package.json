@@ -14,8 +14,6 @@
     "@types/node": "^22.0.0"
   },
   "scripts": {
-    "build": "tsc",
-    "start": "node dist/server.js",
-    "dev": "node --watch dist/server.js"
+    "start": "node --experimental-specifier-resolution=node src/index.ts"
   }
 }
