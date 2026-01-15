@@ -14,6 +14,7 @@
     "@types/node": "^22.0.0"
   },
   "scripts": {
-    "start": "node --experimental-specifier-resolution=node src/index.ts"
+    "build": "tsc",
+    "start": "node dist/src/index.js"
   }
 }
