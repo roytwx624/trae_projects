@@ -2,7 +2,6 @@
   "name": "exhibition-platform",
   "version": "1.0.0",
   "description": "大都会展数智平台",
-  "type": "module",
   "keywords": ["exhibition", "platform", "registration"],
   "author": "",
   "license": "ISC",
@@ -15,6 +14,6 @@
   },
   "scripts": {
     "build": "tsc",
-    "start": "node dist/src/index.js"
+    "start": "node index.js"
   }
 }
