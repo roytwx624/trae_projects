@@ -1,10 +1,10 @@
 import express from 'express'
 import path from 'path'
 import { fileURLToPath } from 'url'
+import fs from 'fs/promises'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
-
 const app = express()
 
 // Middleware for parsing JSON and URL-encoded data
@@ -22,7 +22,10 @@ app.use((req, res, next) => {
 // Serve static files with explicit root path
 app.use(express.static(path.join(__dirname, '..')))
 
-// In-memory storage for registrations
+// Database file path
+const DB_FILE = path.join(__dirname, '..', 'registrations.json')
+
+// Registration interface
 interface Registration {
   id: string
   name: string
@@ -30,10 +33,33 @@ interface Registration {
   idCard: string
   exhibitionId: string
   exhibitionName: string
-  createdAt: Date
+  createdAt: string
 }
 
-const registrations: Registration[] = []
+// Initialize database file if it doesn't exist
+async function initDatabase() {
+  try {
+    await fs.access(DB_FILE)
+  } catch {
+    await fs.writeFile(DB_FILE, JSON.stringify([], null, 2), 'utf8')
+  }
+}
+
+// Get all registrations from database
+async function getAllRegistrations(): Promise<Registration[]> {
+  const data = await fs.readFile(DB_FILE, 'utf8')
+  return JSON.parse(data)
+}
+
+// Save registration to database
+async function saveRegistration(registration: Registration): Promise<void> {
+  const registrations = await getAllRegistrations()
+  registrations.push(registration)
+  await fs.writeFile(DB_FILE, JSON.stringify(registrations, null, 2), 'utf8')
+}
+
+// Initialize database
+initDatabase()
 
 // ID card validation function
 function validateIdCard(idCard: string): boolean {
@@ -93,7 +119,7 @@ app.get('/healthz', (req, res) => {
 })
 
 // User registration endpoint
-app.post('/api/register', (req, res) => {
+app.post('/api/register', async (req, res) => {
   try {
     const { name, phone, idCard, exhibitionId, exhibitionName } = req.body
 
@@ -129,11 +155,11 @@ app.post('/api/register', (req, res) => {
       idCard,
       exhibitionId,
       exhibitionName,
-      createdAt: new Date()
+      createdAt: new Date().toISOString()
     }
 
-    // Store registration
-    registrations.push(registration)
+    // Store registration in database
+    await saveRegistration(registration)
 
     // Return success response
     return res.status(201).json({
@@ -155,17 +181,26 @@ app.post('/api/register', (req, res) => {
 })
 
 // Get all registrations (for admin use)
-app.get('/api/registrations', (req, res) => {
-  res.json({
-    success: true,
-    data: registrations.map(reg => ({
-      id: reg.id,
-      name: reg.name,
-      phone: reg.phone,
-      exhibitionName: reg.exhibitionName,
-      createdAt: reg.createdAt
-    }))
-  })
+app.get('/api/registrations', async (req, res) => {
+  try {
+    const registrations = await getAllRegistrations()
+    res.json({
+      success: true,
+      data: registrations.map(reg => ({
+        id: reg.id,
+        name: reg.name,
+        phone: reg.phone,
+        exhibitionName: reg.exhibitionName,
+        createdAt: reg.createdAt
+      }))
+    })
+  } catch (error) {
+    console.error('Get registrations error:', error)
+    res.status(500).json({
+      success: false,
+      message: 'Internal server error'
+    })
+  }
 })
 
 export default app
