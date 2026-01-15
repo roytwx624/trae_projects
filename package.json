@@ -2,13 +2,19 @@
   "name": "exhibition-platform",
   "version": "1.0.0",
   "description": "大都会展数智平台",
-  "keywords": ["exhibition", "platform", "registration"],
+  "keywords": ["exhibition", "platform", "registration", "typescript", "express"],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/express": "^5.0.0",
     "express": "^4.18.2"
   },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.5.0"
+  },
   "scripts": {
-    "start": "node index.js"
+    "build": "tsc",
+    "start": "node dist/src/index.js"
   }
 }
