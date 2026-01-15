@@ -91,6 +91,9 @@
             responseDiv.className = 'p-3 rounded-md bg-yellow-50 text-yellow-800';
             
             try {
+                responseDiv.textContent = '提交中...';
+                responseDiv.className = 'p-3 rounded-md bg-yellow-50 text-yellow-800';
+                
                 const response = await fetch('/api/register', {
                     method: 'POST',
                     headers: {
@@ -98,6 +101,10 @@
                     },
                     body: JSON.stringify(data)
                 });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
                 
                 const result = await response.json();
                 
@@ -110,7 +117,8 @@
                     responseDiv.className = 'p-3 rounded-md bg-red-50 text-red-800';
                 }
             } catch (error) {
-                responseDiv.textContent = '网络错误，请稍后重试';
+                console.error('Fetch error:', error);
+                responseDiv.textContent = `网络错误: ${error.message}`;
                 responseDiv.className = 'p-3 rounded-md bg-red-50 text-red-800';
             }
         });

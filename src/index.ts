@@ -1,24 +1,31 @@
 import express from 'express'
 import path from 'path'
 import { fileURLToPath } from 'url'
-import fs from 'fs/promises'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
+
 const app = express()
 
 // Middleware for parsing JSON and URL-encoded data
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
-// CORS middleware to allow cross-origin requests
+// Enable CORS for all routes
 app.use((req, res, next) => {
+  // Log all requests for debugging
+  console.log(`${new Date().toISOString()} - ${req.method} ${req.url}`)
+  console.log('Headers:', req.headers)
+  console.log('Body:', req.body)
+  
+  // Set CORS headers
   res.setHeader('Access-Control-Allow-Origin', '*')
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization')
   
   // Handle OPTIONS request
   if (req.method === 'OPTIONS') {
+    console.log('OPTIONS request received, sending 200 OK')
     res.sendStatus(200)
     return
   }
