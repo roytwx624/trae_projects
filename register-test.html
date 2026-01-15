@@ -94,7 +94,8 @@
                 responseDiv.textContent = '提交中...';
                 responseDiv.className = 'p-3 rounded-md bg-yellow-50 text-yellow-800';
                 
-                const response = await fetch('/api/register', {
+                // 使用完整的 Vercel API URL
+                const response = await fetch('https://express-js-on-vercel-gamma-three.vercel.app/api/register', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
