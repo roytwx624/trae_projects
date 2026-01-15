@@ -11,6 +11,12 @@
     }
   ],
   "routes": [
+    // Explicitly map root path to index.html
+    {
+      "src": "/",
+      "dest": "/index.html"
+    },
+    // Keep existing API route
     {
       "src": "/api/(.*)",
       "dest": "src/index.ts",
@@ -20,6 +26,7 @@
         "Access-Control-Allow-Headers": "Content-Type, Authorization"
       }
     },
+    // Catch-all for other static files
     {
       "src": "/(.*)",
       "dest": "/$1"
