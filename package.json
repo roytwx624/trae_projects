@@ -14,7 +14,7 @@
     "typescript": "^5.5.0"
   },
   "scripts": {
-    "build": "tsc",
-    "start": "node dist/src/index.js"
+    "build": "echo 'No build needed for Vercel Node.js runtime'",
+    "start": "node src/index.js"
   }
 }
