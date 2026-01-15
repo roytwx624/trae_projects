@@ -2,18 +2,26 @@
   "version": 2,
   "builds": [
     {
-      "src": "index.js",
-      "use": "@vercel/node"
-    },
-    {
       "src": "*.html",
       "use": "@vercel/static"
+    },
+    {
+      "src": "api/*.js",
+      "use": "@vercel/node"
     }
   ],
   "routes": [
     {
-      "src": "/api/(.*)",
-      "dest": "index.js"
+      "src": "/api/register",
+      "dest": "api/register.js"
+    },
+    {
+      "src": "/api/registrations",
+      "dest": "api/registrations.js"
+    },
+    {
+      "src": "/api/healthz",
+      "dest": "api/healthz.js"
     },
     {
       "src": "/",
@@ -21,7 +29,7 @@
     },
     {
       "src": "/(.*)",
-      "dest": "index.js"
+      "dest": "$1"
     }
   ]
 }
