@@ -16,16 +16,20 @@ app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*')
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization')
+  
+  // Handle OPTIONS request
+  if (req.method === 'OPTIONS') {
+    res.sendStatus(200)
+    return
+  }
+  
   next()
 })
 
 // Serve static files with explicit root path
 app.use(express.static(path.join(__dirname, '..')))
 
-// Database file path
-const DB_FILE = path.join(__dirname, '..', 'registrations.json')
-
-// Registration interface
+// In-memory storage for registrations (fallback for serverless environments like Vercel)
 interface Registration {
   id: string
   name: string
@@ -36,30 +40,26 @@ interface Registration {
   createdAt: string
 }
 
-// Initialize database file if it doesn't exist
-async function initDatabase() {
-  try {
-    await fs.access(DB_FILE)
-  } catch {
-    await fs.writeFile(DB_FILE, JSON.stringify([], null, 2), 'utf8')
-  }
+const registrations: Registration[] = []
+
+// Initialize registrations array
+function initRegistrations() {
+  console.log('Registrations storage initialized')
 }
 
-// Get all registrations from database
-async function getAllRegistrations(): Promise<Registration[]> {
-  const data = await fs.readFile(DB_FILE, 'utf8')
-  return JSON.parse(data)
+// Get all registrations
+function getAllRegistrations(): Registration[] {
+  return registrations
 }
 
-// Save registration to database
-async function saveRegistration(registration: Registration): Promise<void> {
-  const registrations = await getAllRegistrations()
+// Save registration
+function saveRegistration(registration: Registration): void {
   registrations.push(registration)
-  await fs.writeFile(DB_FILE, JSON.stringify(registrations, null, 2), 'utf8')
+  console.log('Registration saved:', registration.id)
 }
 
-// Initialize database
-initDatabase()
+// Initialize storage
+initRegistrations()
 
 // ID card validation function
 function validateIdCard(idCard: string): boolean {
@@ -119,7 +119,7 @@ app.get('/healthz', (req, res) => {
 })
 
 // User registration endpoint
-app.post('/api/register', async (req, res) => {
+app.post('/api/register', (req, res) => {
   try {
     const { name, phone, idCard, exhibitionId, exhibitionName } = req.body
 
@@ -158,8 +158,8 @@ app.post('/api/register', async (req, res) => {
       createdAt: new Date().toISOString()
     }
 
-    // Store registration in database
-    await saveRegistration(registration)
+    // Store registration in memory
+    saveRegistration(registration)
 
     // Return success response
     return res.status(201).json({
@@ -181,9 +181,9 @@ app.post('/api/register', async (req, res) => {
 })
 
 // Get all registrations (for admin use)
-app.get('/api/registrations', async (req, res) => {
+app.get('/api/registrations', (req, res) => {
   try {
-    const registrations = await getAllRegistrations()
+    const registrations = getAllRegistrations()
     res.json({
       success: true,
       data: registrations.map(reg => ({
