@@ -3,23 +3,18 @@
   "builds": [
     {
       "src": "src/index.ts",
-      "use": "@vercel/node",
-      "config": {
-        "maxLambdaSize": "15mb"
-      }
+      "use": "@vercel/node"
     },
     {
-      "src": "(?!src|dist).*",
+      "src": "*.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "public/*",
       "use": "@vercel/static"
     }
   ],
   "routes": [
-    // Explicitly map root path to index.html
-    {
-      "src": "/",
-      "dest": "/index.html"
-    },
-    // Keep existing API route
     {
       "src": "/api/(.*)",
       "dest": "src/index.ts",
@@ -29,15 +24,13 @@
         "Access-Control-Allow-Headers": "Content-Type, Authorization"
       }
     },
-    // Health check endpoint
     {
-      "src": "/healthz",
-      "dest": "src/index.ts"
+      "src": "/",
+      "dest": "index.html"
     },
-    // Catch-all for other static files
     {
       "src": "/(.*)",
-      "dest": "/$1"
+      "dest": "$1"
     }
   ]
 }
