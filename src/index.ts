@@ -33,8 +33,8 @@ app.use((req, res, next) => {
   next()
 })
 
-// Serve static files with explicit root path
-app.use(express.static(path.join(__dirname, '..')))
+// Serve static files from public directory
+app.use(express.static(path.join(__dirname, '../public')))
 
 // In-memory storage for registrations (fallback for serverless environments like Vercel)
 interface Registration {
